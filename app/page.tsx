@@ -1,65 +1,79 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState } from 'react';
+import AuroraBackground from '@/components/layout/AuroraBackground';
+import HeaderSection from '@/components/ui/section/HeaderSection';
+import InputCard from '@/components/ui/home/InputCard';
+import SuggestionSection from '@/components/ui/section/SuggestionSection';
+import { useRouter } from 'next/navigation';
+import { Spinner } from '@/components/ui/Spinner';
+import LoadingUi from '@/components/ui/section/LoadingUi';
+
+export default function HomePage() {
+  const [mood, setMood] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter(); 
+
+  const handleGenerateMeditation = async () => {
+    if (!mood.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      // --- API Fetch Logic ---
+      // ตัวอย่างการเรียก API (สมมติว่า API คืนค่า { id: "123" })
+      // const response = await fetch('/api/generate', { method: 'POST', body: JSON.stringify({ mood }) });
+      // const data = await response.json();
+      
+      // จำลองการโหลด 3 วินาที
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const mockId = "meditation-" + Date.now(); // จำลอง ID ที่ได้จาก Server
+
+      // เมื่อสำเร็จ: Redirect ไปยังหน้า Player ทันที
+      router.push(`/player/${mockId}`);
+      
+    } catch (error) {
+      console.error('Error generating meditation:', error);
+      setIsSubmitting(false); // คืนค่าเพื่อให้ User ลองใหม่ได้ถ้า Error
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <AuroraBackground>
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <main className="w-full max-w-3xl px-6 flex flex-col items-center">
+          
+          {/* Conditional Rendering: ถ้ากำลังโหลดให้แสดง Spinner อย่างเดียว */}
+          {isSubmitting ? (
+            <LoadingUi title='Please wait a minute' description='Generating your Personal Meditation Guided'/>
+          ) : (
+            <>
+              {/* 1. Header */}
+              <HeaderSection
+                title={
+                  <>
+                    How is your mind <span className="text-orange-500">now?</span>
+                  </>
+                }
+                exampleText="I feel anxious about my meeting"
+              />
+
+              {/* 2. Input Card */}
+              <InputCard
+                value={mood}
+                onChange={setMood}
+                onSubmit={handleGenerateMeditation}
+                isSubmitting={isSubmitting}
+              />
+
+              {/* 3. Suggestions */}
+              <SuggestionSection
+                onSelectSuggestion={(selectedMood) => setMood(selectedMood)}
+              />
+            </>
+          )}
+
+        </main>
+      </div>
+    </AuroraBackground>
   );
 }
