@@ -7,8 +7,6 @@ import { useSession, signOut } from 'next-auth/react';
 export default function Navbar() {
   const { data: session } = useSession();
 
-  console.log(session);
-
   const navItems = session
     ? [
         { name: 'Home', href: '/', icon: <Home size={18} /> },
