@@ -24,11 +24,10 @@ export default function Navbar() {
       }
     } catch (error) {
       console.error('Backend logout failed:', error);
+    } finally {
+      // 2. ไม่ว่า API จะสำเร็จหรือไม่ ให้เคลียร์ Session ใน Next.js ต่อเสมอ
+      signOut({ callbackUrl: '/auth/signin' });
     }
-    // } finally {
-    //   // 2. ไม่ว่า API จะสำเร็จหรือไม่ ให้เคลียร์ Session ใน Next.js ต่อเสมอ
-    //   signOut({ callbackUrl: '/auth/signin' });
-    // }
   };
 
   const navItems = session
