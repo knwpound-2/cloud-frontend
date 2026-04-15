@@ -1,11 +1,35 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, History, Settings, Wind, UserPlus, LogIn , LogOut } from 'lucide-react';
+import {
+  Home,
+  History,
+  Settings,
+  Wind,
+  UserPlus,
+  LogIn,
+  LogOut,
+} from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
+import userLogout from '@/lib/api/userLogout';
 
 export default function Navbar() {
   const { data: session } = useSession();
+
+  const handleLogout = async () => {
+    try {
+      // 1. เรียก API Logout ของ Backend (AWS)
+      if (session?.accessToken) {
+        await userLogout(session.accessToken);
+      }
+    } catch (error) {
+      console.error('Backend logout failed:', error);
+    }
+    // } finally {
+    //   // 2. ไม่ว่า API จะสำเร็จหรือไม่ ให้เคลียร์ Session ใน Next.js ต่อเสมอ
+    //   signOut({ callbackUrl: '/auth/signin' });
+    // }
+  };
 
   const navItems = session
     ? [
@@ -13,7 +37,7 @@ export default function Navbar() {
         { name: 'History', href: '/history', icon: <History size={18} /> },
         {
           name: 'Sign Out',
-          onClick: ()=> signOut({ callbackUrl: '/api/auth/signin' }),
+          onClick: handleLogout,
           icon: <LogOut size={18} />,
         },
       ]
