@@ -12,12 +12,27 @@ export default function SuggestionSection({
   const { data: session } = useSession();
 
   const suggestions = [
-    'Focus',
-    'Sleep',
-    'Stress-relief',
-    'Morning',
-    'Deep Calm',
-  ];
+  {
+    label: "Focus",
+    text: "Improve concentration and clear distractions"
+  },
+  {
+    label: "Sleep",
+    text: "Relax the body and prepare for deep sleep"
+  },
+  {
+    label: "Stress-relief",
+    text: "Release tension and calm the mind"
+  },
+  {
+    label: "Morning",
+    text: "Start the day with energy and clarity"
+  },
+  {
+    label: "Deep Calm",
+    text: "Enter a peaceful and deeply relaxed state"
+  }
+];
 
   return (
     <div className="mt-8 flex flex-wrap justify-center gap-3">
@@ -29,26 +44,26 @@ export default function SuggestionSection({
       {/* Suggestion */}
       {suggestions.map((item) => (
         <button
-          key={item}
+          key={item.label}
           type="button"
-          onClick={() => onSelectSuggestion(item)}
+          onClick={() => onSelectSuggestion(item.text)}
           className="px-5 py-2 rounded-full bg-white/50 border border-white text-slate-600 text-sm font-medium 
                      hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 
                      transition-all duration-200 shadow-sm hover:shadow-md active:scale-95
                      disabled:opacity-50 disabled:cursor-not-allowed"
           disabled = {session? false: true}
         >
-          {item}
+          {item.label}
         </button>
       ))}
 
       {/* ปุ่มดูเพิ่มเติม */}
-      <button
+      {/* <button
         type="button"
         className="px-5 py-2 rounded-full text-orange-500 text-sm font-semibold hover:underline transition-colors"
       >
         + More ideas
-      </button>
+      </button> */}
     </div>
   );
 }
