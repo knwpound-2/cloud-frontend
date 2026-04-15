@@ -43,77 +43,58 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden">
-      <main className="w-full h-full flex flex-col justify-center items-center overflow-hidden">
-        <div
-          className="absolute inset-0 animate-pulseCircle1"
-          style={{
-            background:
-              'radial-gradient(circle at 50% 40%, #EECE7B, transparent, transparent)',
-            zIndex: 10,
-          }}
-        ></div>
+    <div className="w-full">
+      <div
+        className="flex flex-col justify-center items-center w-fit h-fit bg-white/90 px-10 py-15 rounded-lg gap-7 shadow-md
+        max-sm:px-5 max-sm:py-8 z-30 m-auto"
+      >
+        <div className="flex flex-col gap-2 items-center">
+          <h1 className="p-0 m-0 text-3xl text-center font-bold max-sm:text-xl">
+            Sign in with Email
+          </h1>
+          <p className="text-sm text-center">
+            Welcome! Let’s make new memories together.
+          </p>
+        </div>
 
-        <div
-          className="absolute inset-0 animate-pulseCircle2"
-          style={{
-            background:
-              'radial-gradient(circle at 30% 40%, #FF8D4B, #ffff, #ffff)',
-            zIndex: 10,
-          }}
-        ></div>
-        <div
-          className="flex flex-col justify-center items-center w-fit h-fit bg-white/90 px-10 py-15 rounded-lg gap-7 shadow-md
-        max-sm:px-5 max-sm:py-8 z-30"
-        >
-          <div className="flex flex-col gap-2 items-center">
-            <h1 className="font-serif p-0 m-0 text-3xl text-center font-bold max-sm:text-xl">
-              Sign in with Email
-            </h1>
-            <p className="text-sm text-center">
-              Welcome! Let’s make new memories together.
-            </p>
+        <div className="flex flex-col gap-4 w-[80%]">
+          <div className="flex flex-col gap-2 w-full">
+            <input
+              type="text"
+              className="w-full text-black text-sm px-3 py-1.5 placeholder:black border border-1 border-black 
+            rounded-sm focus:outline focus:outline-gray-500"
+              placeholder="Enter your Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              className="w-full text-black text-sm px-3 py-1.5 placeholder:black border border-1 border-black 
+            rounded-sm focus:outline focus:outline-gray-500"
+              placeholder="Enter your Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-
-          <div className="flex flex-col gap-4 w-[80%]">
-            <div className="flex flex-col gap-2 w-full">
-              <input
-                type="text"
-                className="w-full text-black text-sm px-3 py-1.5 placeholder:black border border-1 border-black 
-            rounded-sm focus:outline focus:outline-gray-500"
-                placeholder="Enter your Email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <input
-                type="password"
-                className="w-full text-black text-sm px-3 py-1.5 placeholder:black border border-1 border-black 
-            rounded-sm focus:outline focus:outline-gray-500"
-                placeholder="Enter your Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            <button
-              className="w-full bg-black text-white font-medium px-3 py-1.5 rounded-md border border-1
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button
+            className="w-full bg-black text-white font-medium px-3 py-1.5 rounded-md border border-1
             hover:bg-white hover:text-black hover:border hover:border-1 hover:border-black transition duration-200
             cursor-pointer"
-              onClick={handleLogin}
-            >
-              {loading ? 'Login...' : 'Login'}
-            </button>
-          </div>
-
-          <div className="flex flex-row gap-2">
-            <p className="text-sm">Don't have an account?</p>
-            <a
-              className="text-sm font-semibold hover:underline active:font-bold cursor-pointer transition duration-150"
-              href="/api/auth/register"
-            >
-              Register
-            </a>
-          </div>
+            onClick={handleLogin}
+          >
+            {loading ? 'Login...' : 'Login'}
+          </button>
         </div>
-      </main>
+
+        <div className="flex flex-row gap-2">
+          <p className="text-sm">Don't have an account?</p>
+          <a
+            className="text-sm font-semibold hover:underline active:font-bold cursor-pointer transition duration-150"
+            href="/auth/register"
+          >
+            Register
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

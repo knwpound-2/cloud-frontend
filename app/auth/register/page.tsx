@@ -33,10 +33,9 @@ export default function Register() {
   };
 
   return (
-    <div className="w-full h-screen overflow-hidden">
-      <main className="w-full h-screen flex flex-col justify-center items-center z-30 overflow-hidden pt-10">
+    <div className="w-full">
         <div className="flex flex-col justify-center items-center w-fit h-fit bg-white/90 px-10 py-8 rounded-lg gap-5 shadow-md
-        max-sm:px-4 max-sm:py-8 z-30">
+        max-sm:px-4 max-sm:py-8 z-30 m-auto mt-15">
           <div className="flex flex-col gap-2 items-center">
             <h1 className="p-0 m-0 text-3xl font-bold max-sm:text-xl">
               Create an Account
@@ -93,7 +92,6 @@ export default function Register() {
             </a>
           </div>
         </div>
-      </main>
     </div>
   );
 }
