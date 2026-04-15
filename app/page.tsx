@@ -36,7 +36,7 @@ export default function HomePage() {
         const slug = filename.replace('.mp3', '');
 
         // ย้ายการ push มาไว้ใน try เพื่อให้แน่ใจว่าได้ slug มาจริงๆ ก่อนเปลี่ยนหน้า
-        router.push(`/player/${slug}`);
+        router.push(`/player/${slug}?mood=${data.mood}`);
       }
     } catch (error) {
       console.error(error);
