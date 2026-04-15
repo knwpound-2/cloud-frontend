@@ -50,7 +50,7 @@ export default function Login() {
       >
         <div className="flex flex-col gap-2 items-center">
           <h1 className="p-0 m-0 text-3xl text-center font-bold max-sm:text-xl">
-            Sign in with Email
+            Sign in with Username
           </h1>
           <p className="text-sm text-center">
             Welcome! Let’s make new memories together.
@@ -63,7 +63,7 @@ export default function Login() {
               type="text"
               className="w-full text-black text-sm px-3 py-1.5 placeholder:black border border-1 border-black 
             rounded-sm focus:outline focus:outline-gray-500"
-              placeholder="Enter your Email"
+              placeholder="Enter your Username"
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
