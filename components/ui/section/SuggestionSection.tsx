@@ -1,5 +1,7 @@
 'use client';
 
+import { useSession } from "next-auth/react";
+
 interface SuggestionSectionProps {
   onSelectSuggestion: (mood: string) => void;
 }
@@ -7,6 +9,8 @@ interface SuggestionSectionProps {
 export default function SuggestionSection({
   onSelectSuggestion,
 }: SuggestionSectionProps) {
+  const { data: session } = useSession();
+
   const suggestions = [
     'Focus',
     'Sleep',
@@ -30,7 +34,9 @@ export default function SuggestionSection({
           onClick={() => onSelectSuggestion(item)}
           className="px-5 py-2 rounded-full bg-white/50 border border-white text-slate-600 text-sm font-medium 
                      hover:bg-orange-50 hover:text-orange-600 hover:border-orange-200 
-                     transition-all duration-200 shadow-sm hover:shadow-md active:scale-95"
+                     transition-all duration-200 shadow-sm hover:shadow-md active:scale-95
+                     disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled = {session? false: true}
         >
           {item}
         </button>

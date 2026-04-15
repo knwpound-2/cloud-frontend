@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { SendHorizontal, Plus } from 'lucide-react';
+import { useSession } from 'next-auth/react';
 
 interface InputCardProps {
   value: string;
@@ -16,6 +17,11 @@ export default function InputCard({
   onSubmit,
   isSubmitting = false,
 }: InputCardProps) {
+
+  const { data: session } = useSession();
+
+  const disabled = session? false: true;
+
   // ป้องกันการกด Enter แล้วขึ้นบรรทัดใหม่ แต่ให้ Submit แทน (Optional)
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey && value.trim()) {
@@ -31,22 +37,14 @@ export default function InputCard({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Tell us how you feel today..."
-          disabled={isSubmitting}
+          placeholder= {session?"Tell us how you feel today...":"Please Sign up or Login before using our service"}
+          disabled={isSubmitting || disabled}
           className="w-full bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none
            text-slate-700 text-lg placeholder:text-slate-400 resize-none p-4 disabled:opacity-50"
         />
 
         {/* Bottom Actions inside Input */}
-        <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-100 px-2">
-          <button
-            type="button"
-            className="flex items-center gap-2 text-slate-400 hover:text-slate-600 transition-colors text-sm font-medium"
-          >
-            <Plus size={18} />
-            <span>Styling Instructions</span>
-          </button>
-
+        <div className="flex items-center justify-end mt-2 pt-2 border-t border-slate-100 px-2">
           <button
             type="button"
             onClick={onSubmit}
