@@ -31,7 +31,7 @@ export default function MeditationPlayer({
     audioRef.current = new Audio(audioUrl);
     bgAudioRef.current = new Audio(bgMusicUrl);
 
-    if (bgAudioRef.current) bgAudioRef.current.volume = 0.08;
+    if (bgAudioRef.current) bgAudioRef.current.volume = 0.1;
 
     const audio = audioRef.current;
     const bgAudio = bgAudioRef.current;
