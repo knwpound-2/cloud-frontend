@@ -8,47 +8,68 @@ interface PlayerProps {
   title?: string;
   subtitle?: string;
   audioUrl?: string; // เพิ่มตัวนี้เพื่อรับ URL จาก AWS/Cloudfront
+  bgMusicUrl? : string;
 }
 
 export default function MeditationPlayer({
   title = 'Deep Calm Meditation',
   subtitle = 'MindFlow AI Generation',
   audioUrl='https://d28270wy98r4uh.cloudfront.net/meditations/6cd38b099fe648559615b115e4984c82.mp3',
+  bgMusicUrl = '/meditation-music.mp3',
 }: PlayerProps) {
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   
   // 1. สร้าง Audio Ref เพื่อควบคุมการเล่นเสียง
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const bgAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     // สร้าง Audio instance เมื่อ component mount หรือ audioUrl เปลี่ยน
     audioRef.current = new Audio(audioUrl);
+    bgAudioRef.current = new Audio(bgMusicUrl);
+
+    if (bgAudioRef.current) bgAudioRef.current.volume = 0.08;
 
     const audio = audioRef.current;
+    const bgAudio = bgAudioRef.current;
 
     // อัปเดตเวลาปัจจุบันและระยะเวลาทั้งหมด
     const setAudioData = () => setDuration(audio.duration);
     const setAudioTime = () => setCurrentTime(audio.currentTime);
 
+    const handleEnded = () => {
+      setIsPlaying(false);
+      audio.pause();
+      bgAudio.pause();
+      audio.currentTime = 0;
+      bgAudio.currentTime = 0;
+    };
+
     audio.addEventListener('loadedmetadata', setAudioData);
     audio.addEventListener('timeupdate', setAudioTime);
     audio.addEventListener('ended', () => setIsPlaying(false));
+    bgAudio.addEventListener('ended', handleEnded);
 
     return () => {
       audio.pause();
+      bgAudio.pause();
       audio.removeEventListener('loadedmetadata', setAudioData);
       audio.removeEventListener('timeupdate', setAudioTime);
+      bgAudio.removeEventListener('ended', handleEnded);
     };
-  }, [audioUrl]);
+  }, [audioUrl, bgMusicUrl]);
 
   // 2. ฟังก์ชันควบคุม Play/Pause
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current?.pause();
+      bgAudioRef.current?.pause();
     } else {
       audioRef.current?.play();
+      bgAudioRef.current?.play();
     }
     setIsPlaying(!isPlaying);
   };
